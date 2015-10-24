@@ -142,7 +142,7 @@ class OpenFireRestApi
         return $this->doRequest('put', $endpoint, compact('username', 'password','name','email', 'groups'));
     }
 
-     /**
+    /**
      * locks/Disables an OpenFire user
      *
      * @param   string          $username   Username
@@ -272,5 +272,55 @@ class OpenFireRestApi
     {
         $endpoint = '/groups/'.$name;
         return $this->doRequest('put', $endpoint, compact('name','description'));
+    }
+
+    /**
+     * Get all chat rooms
+     *
+     * @return  json|false      Json with data or error, or False when something went fully wrong
+     */
+    public function getChatRooms()
+    {
+        $endpoint = '/chatrooms';
+        return $this->doRequest('get', $endpoint);
+    }
+
+    /**
+     *  Retrieve a chat room
+     *
+     * @param  string   $roomName                   Name of chatroom
+     * @return  json|false                          Json with data or error, or False when something went fully wrong
+     */
+    public function getChatRoom($roomName)
+    {
+        $endpoint = '/chatrooms/'.$roomName;
+        return $this->doRequest('get', $endpoint);
+    }
+
+    /**
+     *  Retrieve a chat room participants
+     *
+     * @param  string   $rooNname                   Name of chatroom
+     * @return  json|false                          Json with data or error, or False when something went fully wrong
+     */
+    public function getRoomParticipants($roomName)
+    {
+        $endpoint = '/chatrooms/'.$roomName.'/participants';
+        return $this->doRequest('get', $endpoint);
+    }
+
+    /**
+     * Create a chat room
+     *
+     * @param   string   $naturalName               Name of the chat room
+     * @param   string   $roomName                  Id of the chat room
+     * @param   string   $description               Some description of the chat room
+     * @param   string   $servicename                Service name of the chat room
+     * @return  json|false                          Json with data or error, or False when something went fully wrong
+     */
+    public function createChatRoom($naturalName, $roomName, $description = null, $servicename = null)
+    {
+        $endpoint = '/chatrooms/?servicename='.$servicename;
+        return $this->doRequest('post', $endpoint, compact('naturalName','roomName','description'));
     }
 }
